@@ -2,21 +2,20 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const path = require("path");
+require("dotenv").config();
 
 const app = express();
-const PORT = 3000;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(__dirname)); // serve frontend files
 
-// 🔥 CONNECT TO MONGODB
-mongoose.connect("mongodb+srv://admin:admin123@cluster0.dichurd.mongodb.net/hospitalDB?retryWrites=true&w=majority")
+// ✅ MongoDB Connection
+mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log("MongoDB Connected"))
 .catch(err => console.log(err));
 
-
-// 📦 SCHEMA
+// ✅ Schema
 const appointmentSchema = new mongoose.Schema({
     name: String,
     email: String,
@@ -25,13 +24,10 @@ const appointmentSchema = new mongoose.Schema({
     symptoms: String
 });
 
-// 📦 MODEL
 const Appointment = mongoose.model("Appointment", appointmentSchema);
 
-
-// ✅ ADD APPOINTMENT
+// ✅ Add Appointment
 app.post("/appointment", async (req, res) => {
-
     const { name, email, phone, department, symptoms } = req.body;
 
     if (!name || !email || !phone || !department) {
@@ -51,24 +47,21 @@ app.post("/appointment", async (req, res) => {
     res.json({ message: "Appointment stored successfully" });
 });
 
-
-// ✅ GET ALL APPOINTMENTS
+// ✅ Get Appointments
 app.get("/appointments", async (req, res) => {
     const data = await Appointment.find();
     res.json(data);
 });
 
-
-// ✅ DELETE APPOINTMENT
+// ✅ Delete Appointment
 app.delete("/appointments/:id", async (req, res) => {
-
     await Appointment.findByIdAndDelete(req.params.id);
-
     res.json({ message: "Deleted successfully" });
 });
 
+// ✅ Render Port Fix
+const PORT = process.env.PORT || 3000;
 
-// 🚀 START SERVER
 app.listen(PORT, () => {
-    console.log("Server running on http://localhost:3000");
+    console.log("Server running on port " + PORT);
 });

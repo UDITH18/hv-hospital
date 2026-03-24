@@ -8,10 +8,8 @@
 
 <body>
 
-<!-- 🔐 ADMIN PASSWORD -->
 <script>
 const password = prompt("Enter Admin Password:");
-
 if(password !== "admin123"){
     alert("Access Denied");
     window.location.href = "index.html";
@@ -59,20 +57,19 @@ if(password !== "admin123"){
 
 let allAppointments = [];
 
-// LOAD DATA
+// LOAD
 async function loadAppointments(){
-const response = await fetch("http://localhost:3000/appointments");
+const response = await fetch("https://your-render-url.onrender.com/appointments");
 allAppointments = await response.json();
 displayAppointments(allAppointments);
 }
 
-// DISPLAY DATA
+// DISPLAY
 function displayAppointments(data){
 
 const table = document.querySelector("#appointmentsTable tbody");
 table.innerHTML = "";
 
-// ✅ SHOW MESSAGE IF EMPTY
 if(data.length === 0){
 table.innerHTML = `
 <tr>
@@ -84,7 +81,6 @@ No Appointments Found
 return;
 }
 
-// ✅ DISPLAY DATA (MONGODB FIX)
 data.forEach(app => {
 const row = document.createElement("tr");
 
@@ -100,31 +96,26 @@ row.innerHTML = `
 
 table.appendChild(row);
 });
-
 }
 
 // SEARCH
 function searchAppointments(){
 const keyword = document.getElementById("search").value.toLowerCase();
-
 const filtered = allAppointments.filter(a =>
 a.name.toLowerCase().includes(keyword)
 );
-
 displayAppointments(filtered);
 }
 
 // DELETE
 async function deleteAppointment(id){
-await fetch("http://localhost:3000/appointments/" + id, {
+await fetch("https://your-render-url.onrender.com/appointments/" + id, {
 method: "DELETE"
 });
-
 alert("Deleted successfully");
 loadAppointments();
 }
 
-// INITIAL LOAD
 loadAppointments();
 
 </script>

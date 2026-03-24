@@ -1,32 +1,38 @@
-<script>
-document.getElementById("appointmentForm").addEventListener("submit", async function(e){
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book Appointment | HV Hospitals</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-e.preventDefault();
+<header>
+    <h1>HV Hospitals</h1>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="book.html">Book Appointment</a>
+    </nav>
+</header>
 
-const data = {
-name: document.getElementById("name").value,
-email: document.getElementById("email").value,
-phone: document.getElementById("phone").value,
-department: document.getElementById("department").value,
-symptoms: document.getElementById("symptoms").value
-};
+<section id="appointment">
+    <h2>Book Your Appointment</h2>
+    <form id="appointmentForm">
+        <input id="name" type="text" placeholder="Your Name" required>
+        <input id="email" type="email" placeholder="Email" required>
+        <input id="phone" type="text" placeholder="Phone" required>
+        <select id="department" required>
+            <option value="">Select Department</option>
+            <option value="Cardiology">Cardiology</option>
+            <option value="Neurology">Neurology</option>
+            <option value="Orthopedics">Orthopedics</option>
+        </select>
+        <textarea id="symptoms" placeholder="Describe your symptoms"></textarea>
+        <button type="submit">Book Appointment</button>
+    </form>
+</section>
 
-try {
-const response = await fetch("/appointment",{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify(data)
-});
-
-if(response.ok){
-alert("Appointment Booked Successfully");
-this.reset();
-}else{
-alert("Error submitting form");
-}
-} catch(err){
-alert("Server error");
-}
-
-});
-</script>
+<script src="script.js"></script>
+</body>
+</html>

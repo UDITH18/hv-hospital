@@ -16,28 +16,36 @@ form.addEventListener("submit", async function(e) {
     const department = document.getElementById("department").value;
     const symptoms = document.getElementById("symptoms").value;
 
-    const response = await fetch("http://localhost:3000/appointment", {
+    try {
+        const response = await fetch("/appointment", {
 
-        method: "POST",
+            method: "POST",
 
-        headers: {
-            "Content-Type": "application/json"
-        },
+            headers: {
+                "Content-Type": "application/json"
+            },
 
-        body: JSON.stringify({
-            name,
-            email,
-            phone,
-            department,
-            symptoms
-        })
+            body: JSON.stringify({
+                name,
+                email,
+                phone,
+                department,
+                symptoms
+            })
 
-    });
+        });
 
-    const data = await response.json();
+        if (response.ok) {
+            const data = await response.json();
+            alert(data.message || "Appointment booked successfully");
+            form.reset();
+        } else {
+            alert("Failed to submit form");
+        }
 
-    alert(data.message);
-
-    form.reset();
+    } catch (error) {
+        console.error(error);
+        alert("Server error. Try again later.");
+    }
 
 });

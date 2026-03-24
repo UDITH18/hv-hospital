@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Book Appointment | HV Hospitals</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<header class="header">
+<h1>HV Hospitals</h1>
+
+<nav>
+<a href="index.html">Home</a>
+</nav>
+</header>
+
+<section class="appointment-section">
+
+<div class="form-container">
+
+<h2>Book an Appointment</h2>
+<p>Please fill in the details below to schedule your consultation.</p>
+
+<form id="appointmentForm">
+
+<div class="input-group">
+<label>Full Name</label>
+<input type="text" id="name" required>
+</div>
+
+<div class="input-group">
+<label>Email Address</label>
+<input type="email" id="email" required>
+</div>
+
+<div class="input-group">
+<label>Phone Number</label>
+<input type="text" id="phone" required>
+</div>
+
+<div class="input-group">
+<label>Select Department</label>
+<select id="department">
+<option>Cardiology</option>
+<option>Neurology</option>
+<option>Orthopedics</option>
+<option>General Medicine</option>
+</select>
+</div>
+
+<div class="input-group">
+<label>Describe Symptoms</label>
+<textarea id="symptoms" rows="4"></textarea>
+</div>
+
+<button type="submit" class="btn-primary full-width">
+Confirm Appointment
+</button>
+
+</form>
+
+</div>
+
+</section>
+
+<script>
+document.getElementById("appointmentForm").addEventListener("submit", async function(e){
+
+e.preventDefault();
+
+const data = {
+name: document.getElementById("name").value,
+email: document.getElementById("email").value,
+phone: document.getElementById("phone").value,
+department: document.getElementById("department").value,
+symptoms: document.getElementById("symptoms").value
+};
+
+await fetch("http://localhost:3000/appointment", {
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify(data)
+});
+
+alert("Appointment Confirmed Successfully");
+
+this.reset();
+
+});
+</script>
+
+</body>
+</html>

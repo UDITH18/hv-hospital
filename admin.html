@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Panel</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- 🔐 ADMIN PASSWORD -->
+<script>
+const password = prompt("Enter Admin Password:");
+
+if(password !== "admin123"){
+    alert("Access Denied");
+    window.location.href = "index.html";
+}
+</script>
+
+<header class="header">
+<h1>HV Hospitals - Admin Panel</h1>
+
+<nav>
+<a href="index.html">Home</a>
+</nav>
+</header>
+
+<section style="padding:50px; text-align:center;">
+
+<h2>Patient Appointments</h2>
+
+<input type="text" id="search" placeholder="Search by name">
+<button onclick="searchAppointments()">Search</button>
+
+<br><br>
+
+<table id="appointmentsTable">
+
+<thead>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Email</th>
+<th>Phone</th>
+<th>Department</th>
+<th>Symptoms</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody></tbody>
+
+</table>
+
+</section>
+
+<script>
+
+let allAppointments = [];
+
+// LOAD DATA
+async function loadAppointments(){
+const response = await fetch("http://localhost:3000/appointments");
+allAppointments = await response.json();
+displayAppointments(allAppointments);
+}
+
+// DISPLAY DATA
+function displayAppointments(data){
+
+const table = document.querySelector("#appointmentsTable tbody");
+table.innerHTML = "";
+
+// ✅ SHOW MESSAGE IF EMPTY
+if(data.length === 0){
+table.innerHTML = `
+<tr>
+<td colspan="7" style="padding:20px; text-align:center; color:gray;">
+No Appointments Found
+</td>
+</tr>
+`;
+return;
+}
+
+// ✅ DISPLAY DATA (MONGODB FIX)
+data.forEach(app => {
+const row = document.createElement("tr");
+
+row.innerHTML = `
+<td>${app._id}</td>
+<td>${app.name}</td>
+<td>${app.email}</td>
+<td>${app.phone}</td>
+<td>${app.department}</td>
+<td>${app.symptoms}</td>
+<td><button onclick="deleteAppointment('${app._id}')">Delete</button></td>
+`;
+
+table.appendChild(row);
+});
+
+}
+
+// SEARCH
+function searchAppointments(){
+const keyword = document.getElementById("search").value.toLowerCase();
+
+const filtered = allAppointments.filter(a =>
+a.name.toLowerCase().includes(keyword)
+);
+
+displayAppointments(filtered);
+}
+
+// DELETE
+async function deleteAppointment(id){
+await fetch("http://localhost:3000/appointments/" + id, {
+method: "DELETE"
+});
+
+alert("Deleted successfully");
+loadAppointments();
+}
+
+// INITIAL LOAD
+loadAppointments();
+
+</script>
+
+</body>
+</html>

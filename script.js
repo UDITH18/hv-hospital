@@ -9,18 +9,17 @@ form.addEventListener("submit", async function(e) {
     const department = document.getElementById("department").value;
     const symptoms = document.getElementById("symptoms").value.trim();
 
-    // 🔹 Debug: log form data
-    console.log("Submitting appointment:", { name, email, phone, department, symptoms });
+    if (!name || !email || !phone || !department) {
+        alert("Please fill all required fields");
+        return;
+    }
 
     try {
-        const response = await fetch("/appointment", {
+        const response = await fetch("https://hv-hospital.onrender.com/appointment", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name, email, phone, department, symptoms })
         });
-
-        // 🔹 Debug: log raw response
-        console.log("Response status:", response.status);
 
         const data = await response.json();
 
@@ -28,14 +27,10 @@ form.addEventListener("submit", async function(e) {
             alert(data.message || "Appointment booked successfully!");
             form.reset();
         } else {
-            alert(data.message || "Failed to submit form");
+            alert(data.message || "Failed to submit form. Try again.");
         }
-
-        // 🔹 Debug: log response data
-        console.log("Response data:", data);
-
     } catch (error) {
         console.error("Fetch error:", error);
-        alert("Server error. Try again later.");
+        alert("Server error. Please try later.");
     }
 });

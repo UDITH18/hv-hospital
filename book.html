@@ -6,31 +6,66 @@
 <title>Book Appointment | HV Hospitals</title>
 <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<header>
-    <h1>HV Hospitals</h1>
+<header class="header">
+    <div class="logo">
+        <h1>HV Hospitals</h1>
+    </div>
+
     <nav>
         <a href="index.html">Home</a>
         <a href="book.html">Book Appointment</a>
     </nav>
 </header>
 
-<section id="appointment" class="form-wrapper">
-    <form id="appointmentForm">
-        <h2>Book Your Appointment</h2>
-        <input id="name" type="text" placeholder="Your Name" required>
-        <input id="email" type="email" placeholder="Email" required>
-        <input id="phone" type="text" placeholder="Phone" required>
-        <select id="department" required>
-            <option value="">Select Department</option>
-            <option value="Cardiology">Cardiology</option>
-            <option value="Neurology">Neurology</option>
-            <option value="Orthopedics">Orthopedics</option>
-        </select>
-        <textarea id="symptoms" placeholder="Describe your symptoms"></textarea>
-        <button type="submit">Book Appointment</button>
-    </form>
+<section class="appointment-section">
+
+<div class="form-container">
+
+<h2>Book Appointment</h2>
+<p>Please fill the form to schedule your visit</p>
+
+<form id="appointmentForm">
+
+<div class="input-group">
+<label>Full Name</label>
+<input id="name" type="text" placeholder="Enter your name" required>
+</div>
+
+<div class="input-group">
+<label>Email Address</label>
+<input id="email" type="email" placeholder="Enter your email" required>
+</div>
+
+<div class="input-group">
+<label>Phone Number</label>
+<input id="phone" type="text" placeholder="Enter phone number" required>
+</div>
+
+<div class="input-group">
+<label>Department</label>
+<select id="department" required>
+<option value="">Select Department</option>
+<option value="General Medicine">General Medicine</option>
+<option value="Cardiology">Cardiology</option>
+<option value="Neurology">Neurology</option>
+<option value="Orthopedics">Orthopedics</option>
+</select>
+</div>
+
+<div class="input-group">
+<label>Symptoms</label>
+<textarea id="symptoms" placeholder="Describe your symptoms"></textarea>
+</div>
+
+<button type="submit" class="full-width">Confirm Appointment</button>
+
+</form>
+
+</div>
+
 </section>
 
 <script src="script.js"></script>

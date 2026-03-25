@@ -414,4 +414,32 @@ button:hover {
     padding: 6px 12px;
     border-radius: 20px;
     font-size: 12px;
+} 
+/* ============================= */
+/* DEVELOPER PAGE (FINAL FIX) */
+/* ============================= */
+.developer-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+}
+
+/* 👇 PASTE HERE 👇 */
+
+/* FIX FORM LAYOUT ISSUE */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* FORCE PROPER WIDTH */
+.input-group {
+    width: 100%;
+}
+
+/* REMOVE INLINE LOOK */
+input, select, textarea {
+    display: block;
+    width: 100%;
 }

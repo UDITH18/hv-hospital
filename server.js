@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(express.static(__dirname));
 
 // ------------------------
-// MySQL Connection Pool (using DB_* variables)
+// MySQL Connection Pool
 // ------------------------
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
@@ -55,13 +55,14 @@ async function createTable() {
         console.error("❌ Table creation error:", err);
     }
 }
-
 createTable();
 
 // ------------------------
 // Add Appointment
 // ------------------------
 app.post("/appointment", async (req, res) => {
+
+    console.log("📩 Incoming data:", req.body); // 🔥 DEBUG LINE
 
     const { name, email, phone, department, symptoms } = req.body;
 

@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const mysql = require("mysql2/promise");
-require("dotenv").config();
 
 const app = express();
 
@@ -10,18 +9,31 @@ app.use(express.json());
 app.use(express.static(__dirname));
 
 // ------------------------
-// MySQL Connection Pool
+// MySQL Connection Pool (Railway)
 // ------------------------
 const pool = mysql.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    port: process.env.DB_PORT,
+    host: process.env.MYSQLHOST,
+    user: process.env.MYSQLUSER,
+    password: process.env.MYSQLPASSWORD,
+    database: process.env.MYSQLDATABASE,
+    port: process.env.MYSQLPORT,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
 });
+
+// ------------------------
+// TEST DB CONNECTION
+// ------------------------
+(async () => {
+    try {
+        const conn = await pool.getConnection();
+        console.log("✅ Connected to Railway MySQL");
+        conn.release();
+    } catch (err) {
+        console.error("❌ DB Connection Failed:", err);
+    }
+})();
 
 // ------------------------
 // Create Table Automatically
@@ -38,9 +50,9 @@ async function createTable() {
             symptoms TEXT
         )
         `);
-        console.log("Appointments table ready");
+        console.log("✅ Appointments table ready");
     } catch (err) {
-        console.error("Table creation error:", err);
+        console.error("❌ Table creation error:", err);
     }
 }
 
@@ -60,15 +72,15 @@ app.post("/appointment", async (req, res) => {
     try {
 
         await pool.query(
-            "INSERT INTO appointments (name,email,phone,department,symptoms) VALUES (?,?,?,?,?)",
-            [name, email, phone, department, symptoms]
+            "INSERT INTO appointments (name, email, phone, department, symptoms) VALUES (?, ?, ?, ?, ?)",
+            [name, email, phone, department, symptoms || ""]
         );
 
-        res.json({ message: "Appointment booked successfully!" });
+        res.json({ message: "✅ Appointment booked successfully!" });
 
     } catch (err) {
 
-        console.error("MySQL insert error:", err);
+        console.error("❌ MySQL insert error:", err);
 
         res.status(500).json({
             message: "Server error. Please try again later."
@@ -91,7 +103,7 @@ app.get("/appointments", async (req, res) => {
 
     } catch (err) {
 
-        console.error("MySQL fetch error:", err);
+        console.error("❌ MySQL fetch error:", err);
 
         res.status(500).json({
             message: "Server error. Cannot fetch appointments."
@@ -113,11 +125,11 @@ app.delete("/appointments/:id", async (req, res) => {
             [id]
         );
 
-        res.json({ message: "Deleted successfully" });
+        res.json({ message: "✅ Deleted successfully" });
 
     } catch (err) {
 
-        console.error("MySQL delete error:", err);
+        console.error("❌ MySQL delete error:", err);
 
         res.status(500).json({
             message: "Server error. Cannot delete appointment."
@@ -131,5 +143,5 @@ app.delete("/appointments/:id", async (req, res) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-    console.log("Server running on port " + PORT);
+    console.log("🚀 Server running on port " + PORT);
 });

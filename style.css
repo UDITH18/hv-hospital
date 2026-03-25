@@ -61,7 +61,22 @@ nav a:hover {
     background: #062c45;
 }
 
-/* HERO */
+.btn-secondary {
+    background: #e74c3c;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 15px;
+}
+
+.btn-secondary:hover {
+    background: #c0392b;
+}
+
+/* HERO SECTION */
 .hero {
     background: url('https://images.unsplash.com/photo-1586773860418-d37222d8fce3') no-repeat center/cover;
     height: 80vh;
@@ -79,10 +94,25 @@ nav a:hover {
     max-width: 600px;
 }
 
+.hero h2 {
+    font-size: 38px;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
 /* SERVICES */
 .services {
     padding: 60px;
     text-align: center;
+}
+
+.services h2 {
+    color: #0a3d62;
+    margin-bottom: 40px;
 }
 
 .grid {
@@ -98,6 +128,20 @@ nav a:hover {
     padding: 25px;
     border-radius: 8px;
     box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    transition: 0.3s;
+}
+
+.card h3 {
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 14px;
+    color: #555;
+}
+
+.card:hover {
+    transform: translateY(-5px);
 }
 
 /* DOCTORS */
@@ -107,10 +151,38 @@ nav a:hover {
     background: #ffffff;
 }
 
+.doctors h2 {
+    color: #0a3d62;
+    margin-bottom: 40px;
+}
+
 .doctor {
     background: #f9fbff;
     padding: 20px;
     border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+    transition: 0.3s;
+}
+
+.doctor:hover {
+    transform: scale(1.04);
+}
+
+.doctor img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.doctor h3 {
+    margin: 5px 0;
+}
+
+.doctor p {
+    font-size: 14px;
+    color: gray;
 }
 
 /* FOOTER */
@@ -119,43 +191,41 @@ footer {
     color: white;
     text-align: center;
     padding: 15px;
+    margin-top: 40px;
+    font-size: 14px;
 }
 
 /* ============================= */
-/* PROFESSIONAL APPOINTMENT FORM */
+/* APPOINTMENT FORM PAGE */
 /* ============================= */
-
 .appointment-section {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 60px 20px;
-    background: #f4f7fb;
+    height: 90vh;
+    background: linear-gradient(to right, #eef3f9, #dfe9f3);
 }
 
 .form-container {
-    background: #ffffff;
-    padding: 35px 40px;
-    border-radius: 8px;
-    width: 420px;
-    border: 1px solid #e5eaf0;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    width: 400px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
 }
 
-/* Title */
 .form-container h2 {
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     color: #0a3d62;
-    font-weight: 600;
 }
 
 .form-container p {
-    font-size: 13px;
-    color: #6c757d;
+    font-size: 14px;
+    color: #777;
     margin-bottom: 20px;
 }
 
-/* INPUT GROUP */
+/* INPUT FIELDS */
 .input-group {
     margin-bottom: 15px;
     display: flex;
@@ -165,59 +235,48 @@ footer {
 .input-group label {
     font-size: 13px;
     margin-bottom: 5px;
+    color: #333;
 }
 
-/* Inputs */
 .input-group input,
 .input-group select,
 .input-group textarea {
-    padding: 11px;
-    border-radius: 4px;
-    border: 1px solid #d0d7de;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
     font-size: 14px;
-    background: #fafbfc;
+    transition: 0.2s;
 }
 
-/* Focus */
 .input-group input:focus,
 .input-group select:focus,
 .input-group textarea:focus {
-    border-color: #0a3d62;
-    background: #ffffff;
     outline: none;
+    border-color: #0a3d62;
 }
 
-/* Button */
+/* FULL WIDTH BUTTON */
 .full-width {
     width: 100%;
     margin-top: 10px;
     font-weight: 600;
-    padding: 12px;
-    background: #0a3d62;
-    color: white;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-}
-
-.full-width:hover {
-    background: #062c45;
 }
 
 /* ============================= */
-/* TABLE */
+/* APPOINTMENTS TABLE PAGE */
 /* ============================= */
-
 table {
     width: 80%;
     border-collapse: collapse;
     margin: auto;
     background: white;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
 }
 
 th, td {
     padding: 12px;
     text-align: center;
+    border-bottom: 1px solid #eee;
 }
 
 th {
@@ -229,10 +288,130 @@ tr:hover {
     background: #f5f7fb;
 }
 
-/* SEARCH */
+button {
+    padding: 6px 10px;
+    border: none;
+    background: #e74c3c;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #c0392b;
+}
+
+/* SEARCH BOX */
 #search {
     padding: 8px;
     width: 200px;
     border-radius: 5px;
     border: 1px solid #ccc;
+}
+
+/* ============================= */
+/* DEVELOPER PAGE */
+/* ============================= */
+#developer {
+    text-align: center;
+    padding: 60px;
+}
+
+.developer-container img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center top;
+    border: 4px solid #0a3d62;
+}
+
+.developer-card img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+.developer-card h3 {
+    margin-bottom: 10px;
+}
+
+.developer-card p {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.5;
+}
+
+/* ============================= */
+/* DEVELOPER PAGE (FINAL FIX) */
+/* ============================= */
+.developer-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;   /* 🔥 centers vertically */
+    padding: 40px 20px;
+    background: #f4f7fb;
+}
+
+.developer-container {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    margin: auto;
+}
+
+.developer-container img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center top;
+    border: 4px solid #0a3d62;
+    margin-bottom: 15px;
+}
+
+.developer-container h2 {
+    margin: 10px 0;
+    color: #0a3d62;
+}
+
+.role {
+    color: gray;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.role span {
+    display: block;
+    font-size: 13px;
+    color: #888;
+}
+
+.description {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.skills {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.skills span {
+    background: #0a3d62;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
 }

@@ -62,29 +62,41 @@ createTable();
 // ------------------------
 app.post("/appointment", async (req, res) => {
 
-    console.log("📩 Incoming data:", req.body); // 🔥 DEBUG LINE
+    console.log("📩 Incoming data:", req.body); // DEBUG
 
     const { name, email, phone, department, symptoms } = req.body;
 
     if (!name || !email || !phone || !department) {
-        return res.status(400).json({ message: "Please fill all required fields" });
+        return res.status(400).json({
+            message: "Please fill all required fields"
+        });
     }
 
     try {
 
-        await pool.query(
+        const [result] = await pool.query(
             "INSERT INTO appointments (name, email, phone, department, symptoms) VALUES (?, ?, ?, ?, ?)",
-            [name, email, phone, department, symptoms || ""]
+            [
+                name,
+                email,
+                String(phone),   // 👈 ensure string
+                department,
+                symptoms || ""
+            ]
         );
 
-        res.json({ message: "✅ Appointment booked successfully!" });
+        console.log("✅ Insert success:", result);
+
+        res.json({
+            message: "✅ Appointment booked successfully!"
+        });
 
     } catch (err) {
 
-        console.error("❌ MySQL insert error:", err);
+        console.error("❌ FULL ERROR:", err);
 
         res.status(500).json({
-            message: "Server error. Please try again later."
+            message: err.message   // 👈 SHOW REAL ERROR
         });
     }
 });
@@ -107,7 +119,7 @@ app.get("/appointments", async (req, res) => {
         console.error("❌ MySQL fetch error:", err);
 
         res.status(500).json({
-            message: "Server error. Cannot fetch appointments."
+            message: err.message
         });
     }
 });
@@ -126,14 +138,16 @@ app.delete("/appointments/:id", async (req, res) => {
             [id]
         );
 
-        res.json({ message: "✅ Deleted successfully" });
+        res.json({
+            message: "✅ Deleted successfully"
+        });
 
     } catch (err) {
 
         console.error("❌ MySQL delete error:", err);
 
         res.status(500).json({
-            message: "Server error. Cannot delete appointment."
+            message: err.message
         });
     }
 });

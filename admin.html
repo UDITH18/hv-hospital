@@ -9,6 +9,7 @@
 <body>
 
 <script>
+// Simple password protection
 const password = prompt("Enter Admin Password:");
 if(password !== "admin123"){
     alert("Access Denied");
@@ -18,7 +19,6 @@ if(password !== "admin123"){
 
 <header class="header">
 <h1>HV Hospitals - Admin Panel</h1>
-
 <nav>
 <a href="index.html">Home</a>
 </nav>
@@ -34,7 +34,6 @@ if(password !== "admin123"){
 <br><br>
 
 <table id="appointmentsTable">
-
 <thead>
 <tr>
 <th>ID</th>
@@ -46,78 +45,86 @@ if(password !== "admin123"){
 <th>Action</th>
 </tr>
 </thead>
-
 <tbody></tbody>
-
 </table>
 
 </section>
 
 <script>
-
 let allAppointments = [];
 
-// LOAD
-async function loadAppointments(){
-const response = await fetch("https://your-render-url.onrender.com/appointments");
-allAppointments = await response.json();
-displayAppointments(allAppointments);
+// LOAD all appointments from MySQL backend
+async function loadAppointments() {
+    try {
+        const response = await fetch("/appointments");
+        allAppointments = await response.json();
+        displayAppointments(allAppointments);
+    } catch (err) {
+        console.error("Error loading appointments:", err);
+        alert("Failed to load appointments from server.");
+    }
 }
 
-// DISPLAY
-function displayAppointments(data){
+// DISPLAY appointments in table
+function displayAppointments(data) {
+    const table = document.querySelector("#appointmentsTable tbody");
+    table.innerHTML = "";
 
-const table = document.querySelector("#appointmentsTable tbody");
-table.innerHTML = "";
+    if (data.length === 0) {
+        table.innerHTML = `
+        <tr>
+        <td colspan="7" style="padding:20px; text-align:center; color:gray;">
+        No Appointments Found
+        </td>
+        </tr>
+        `;
+        return;
+    }
 
-if(data.length === 0){
-table.innerHTML = `
-<tr>
-<td colspan="7" style="padding:20px; text-align:center; color:gray;">
-No Appointments Found
-</td>
-</tr>
-`;
-return;
+    data.forEach(app => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+        <td>${app.id}</td>
+        <td>${app.name}</td>
+        <td>${app.email}</td>
+        <td>${app.phone}</td>
+        <td>${app.department}</td>
+        <td>${app.symptoms}</td>
+        <td><button onclick="deleteAppointment(${app.id})">Delete</button></td>
+        `;
+        table.appendChild(row);
+    });
 }
 
-data.forEach(app => {
-const row = document.createElement("tr");
-
-row.innerHTML = `
-<td>${app._id}</td>
-<td>${app.name}</td>
-<td>${app.email}</td>
-<td>${app.phone}</td>
-<td>${app.department}</td>
-<td>${app.symptoms}</td>
-<td><button onclick="deleteAppointment('${app._id}')">Delete</button></td>
-`;
-
-table.appendChild(row);
-});
+// SEARCH appointments by name
+function searchAppointments() {
+    const keyword = document.getElementById("search").value.toLowerCase();
+    const filtered = allAppointments.filter(a => 
+        a.name.toLowerCase().includes(keyword)
+    );
+    displayAppointments(filtered);
 }
 
-// SEARCH
-function searchAppointments(){
-const keyword = document.getElementById("search").value.toLowerCase();
-const filtered = allAppointments.filter(a =>
-a.name.toLowerCase().includes(keyword)
-);
-displayAppointments(filtered);
+// DELETE appointment by MySQL ID
+async function deleteAppointment(id) {
+    if (!confirm("Are you sure you want to delete this appointment?")) return;
+    try {
+        const response = await fetch("/appointments/" + id, { method: "DELETE" });
+        const data = await response.json();
+        if (response.ok) {
+            alert(data.message || "Deleted successfully");
+            loadAppointments();
+        } else {
+            alert(data.message || "Failed to delete appointment");
+        }
+    } catch (err) {
+        console.error("Delete error:", err);
+        alert("Server error. Could not delete appointment.");
+    }
 }
 
-// DELETE
-async function deleteAppointment(id){
-await fetch("https://your-render-url.onrender.com/appointments/" + id, {
-method: "DELETE"
-});
-alert("Deleted successfully");
+// Initial load
 loadAppointments();
-}
-
-loadAppointments();
-
 </script>
 
 </body>

@@ -1,3 +1,4 @@
+// script.js
 const form = document.getElementById("appointmentForm");
 
 form.addEventListener("submit", async function(e) {
@@ -15,7 +16,7 @@ form.addEventListener("submit", async function(e) {
     }
 
     try {
-        const response = await fetch("https://hv-hospital.onrender.com/appointment", {
+        const response = await fetch("/appointment", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name, email, phone, department, symptoms })
